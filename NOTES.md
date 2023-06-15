@@ -207,3 +207,28 @@ export class HigherOrderInjectComponent {
 ### Superpowers with signals
   - Talk is a live code session, creating an application to generate superheroes
 
+### Angular (a matter of opinion)
+  - Why do we get frustrated with our code and tools?
+  - Part 1. Too many choices can be bad
+    - Angular provides a lot of tools already chosen for you
+    - Makes code consistent and easier to read
+  - Part 2. Information overload
+    - Occurs when we come across novel ideas of information
+    - Can trigger natural responses - causing stress
+    - "Overwhelming" when you are prented with too many tools. Rxjs is another examples of this.
+    - React on the other hand does only a few things, and does them well.
+    - "Seeing all of angular and not making use of it can make you feel like you're doing something wrong."
+  - Part 3. Balance
+    - Concepts need to be introduced gradually - Progressive Disclosure
+      - Hide complex information until it's needed
+    - Standalone components are a better way to start learning angular
+    - Anonymous function guards are also simpler
+    - Signals are probably gonna be a great addition to angular, but are we gonna push them like rxjs as another thing people need to learn?
+    - Need to be upfront about what problems some concept is intended to solve
+    - "Angulars template syntax is angulars weak point - jsx is arguably better"
+  - Summary:
+    - We love having choice
+    - We hate making choices
+    - Reduce complexity!
+    - Simple composable tools
+    - Separate documentation for those tools
