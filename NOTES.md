@@ -253,3 +253,21 @@ export class HigherOrderInjectComponent {
 ### MFE Production Gotchas, and thing you should prepare
   - MFE = Micro FrontEnd
   - Goes through lots of common errors in a quick 5 min talk
+
+### Craig's Angular/Rust Spectacular (brought to you by Rust-eze)
+  - Talk about getting started in Rust
+  - Implementing fluid dynamics simulation in javascript is slow
+  - Typescript vs Rust
+    - Typescript
+      - Superset of JS for Web development
+      - Garbage collection (like JS)
+      - Async/event-driven
+      - Interpreted (but not really...)
+    - Rust
+      - Systems language emphasising safety and performance
+      - Memory-safe without GC
+      - Build-in concurrency and parallelism
+      - Compiled an highly optimised
+  - nvm - rustup
+  - npm - cargo
+  - 
