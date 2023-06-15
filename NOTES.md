@@ -300,3 +300,10 @@ export class HigherOrderInjectComponent {
     - `makeEnvironmentProviders` to disallow libraries from being loaded into standalone components (e.g. router shouldn't be used like that)
   - 3. "Simple angular mosaic"
     - Goes through all of the exciting features mentioned in "Core Angular"
+
+### Delighting users with performant apps
+  - The talk is a story of some specific performance issues during the implementation of a web-based music player
+  - Box shadows are bad for performance, browser over-draws. Use blur and filters
+  - Flip animations and view-transitions are a good way of moving things around
+  - Web workers are good for processor-intensive functions
+  - Moral of the story: you don't have to sacrifice nice looking ui to get good performance
