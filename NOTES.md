@@ -109,21 +109,33 @@ export class Tooltip {
 ```
 
 ### Router improvements
-  - Router is becoming simpler and more functional to use, especially with standalone components, search for functional guards (eg. https://dev.to/this-is-angular/how-to-use-functional-router-guards-in-angular-23kf)
+  - Router is becoming simpler and more functional to use, especially with standalone components. search for functional guards (eg. https://dev.to/this-is-angular/how-to-use-functional-router-guards-in-angular-23kf)
   - Route query params can now be injected into components using `@Input()`
+
+#### Example: Functional methods
+```ts
+const routes: Routes = [
+  {
+    path: 'details/:id',
+    component: DetailsComponent,
+    canActivate: [() => inject(AuthService).isAuthenticated()],
+    resolve: { profile: () => inject(ProfileService).getCurrentUser() }
+  }
+]
+```
 
 #### Example: Injected params
 ```ts
 const routes: Routes = [
   {
     path: 'details/:id',
-    component: Details,
+    component: DetailsComponent,
     resolve: { profile: ProfileResolver }
   }
 ]
 
 @Component({ ... })
-export class Details {
+export class DetailsComponent {
   @Input() query?: string; // query params
   @Input() id?: string; // path params
   @Input() profile?: Profile; // resolved data
@@ -270,4 +282,21 @@ export class HigherOrderInjectComponent {
       - Compiled an highly optimised
   - nvm - rustup
   - npm - cargo
-  - 
+
+### Lightweight Architectures with Angular's Latest Innovations
+  - More is not always better. Under/over engineering is bad. What is the sweet spot?
+  - 1. Standalone components
+    - Code organization does not change:
+      - Small and medium apps: Folder per feature
+      - Medium and large apps: Folder per domain
+        - Intra-domain imports are often prohibited
+        - Can usually only import from "shared"
+        - NX can be used for this
+        - More fine-grained: `@softarc/eslint-plugin-sherrif`
+  - 2. Custom standalone APIs
+    - Allow packages (domains) to be imported into other modules
+    - Like HttpClient, Router, Interceptors, etc
+    - Golden rule: whenever possible, use `providedIn: 'root'`
+    - `makeEnvironmentProviders` to disallow libraries from being loaded into standalone components (e.g. router shouldn't be used like that)
+  - 3. "Simple angular mosaic"
+    - Goes through all of the exciting features mentioned in "Core Angular"
