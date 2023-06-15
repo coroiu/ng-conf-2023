@@ -249,3 +249,7 @@ export class HigherOrderInjectComponent {
     - Contains metadata (claims in a JWT)
   - Refresh token
     - Used to extend the life of authentication and authorization
+
+### MFE Production Gotchas, and thing you should prepare
+  - MFE = Micro FrontEnd
+  - Goes through lots of common errors in a quick 5 min talk
