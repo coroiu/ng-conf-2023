@@ -177,9 +177,11 @@ export class HigherOrderInjectComponent {
 }
 ```
 
-## Other talks
+## Talks
+Raw notes from talks. Information regarding new features is condesed and summarized in the section above.
 
 ### Setting up Enterprise Frontend for Success at Cisco CX and NgRx
+What was important from them to succeed?
   - People
     - Team communication
   - Tools
@@ -307,3 +309,19 @@ export class HigherOrderInjectComponent {
   - Flip animations and view-transitions are a good way of moving things around
   - Web workers are good for processor-intensive functions
   - Moral of the story: you don't have to sacrifice nice looking ui to get good performance
+
+### The Magic and Mystery of Angular Change Detection 
+  - "Change detection is a sequence of steps that ensures the UI reflects the current state of the application"
+  - Very in depth view of how change detection works by looking at compiled angular code.
+  - Zone.js
+    - Patches browser APIs
+    - Tells angular when anything occurs that *could* impact the View
+    - Does NOT tell angular *what* or *where an event* occurred
+    - Angular has to go through each component in the whole tree to check if a template has changed
+    - `OnPush` results in Angular only checking parts of the tree, still top-down
+  - Zone-less (signals)
+    - Change detection for a signal component is scheduled only when a signal is read in the template (essentially subscribing to it).
+    - Enables local (per-view) change detection
+    - Fine-grained info on model changes
+    - Coexists seamlessly with zone components
+    - Signals results in angular only cheking/updating singular nodes in the middle of the tree, no longer top-down
