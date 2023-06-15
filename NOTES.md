@@ -232,3 +232,20 @@ export class HigherOrderInjectComponent {
     - Reduce complexity!
     - Simple composable tools
     - Separate documentation for those tools
+
+### Identity guardians
+  - Quick talk on how OAuth 2.0 + OpenID Connect works
+  - Handshake involve 3 "random" (incomprehensible) strings: the 3 guardians
+    - Access token
+    - ID Token
+    - Refresh token
+  - Access token
+    - From OAauth Layer
+    - Handles authorization
+    - Usually with bearer-scheme
+  - ID Token
+    - From OIDC Layer
+    - Handles authentication and identification
+    - Contains metadata (claims in a JWT)
+  - Refresh token
+    - Used to extend the life of authentication and authorization
