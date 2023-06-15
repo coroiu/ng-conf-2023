@@ -130,6 +130,41 @@ export class Details {
 }
 ```
 
+### Inject function added to Angular v14
+  - At a glance just a different way of writing dependencies
+  - Much more powerful, if you look in depth
+  - For more information see examples below or go to https://codereacter.medium.com/why-angular-14s-new-inject-function-is-so-amazing-ac281e7148d1
+
+#### Example: Basic
+```ts
+export class TraditionalInject {
+  constructor(private httpClient: HttpClient) {}
+}
+
+export class NewInject {
+  protected httpClient = inject(HttpClient);
+}
+```
+
+#### Example: Higher order inject functions
+```ts
+// user-details.fetch.ts
+export const fetchUserDetails() = () => {
+  const http = inject(HttpClient);
+
+  return inject(ActivatedRoute).paramsMap.pipe(
+    map((params) => params.get('id')),
+    map((id) => +id),
+    switchMap((id) => http.get(`/api/user/${id}/details`))
+  );
+}
+
+// higher-order-inject.components.ts
+export class HigherOrderInjectComponent {
+  protected httpClient = fetchUserDetails();
+}
+```
+
 ## Other talks
 
 ### Setting up Enterprise Frontend for Success at Cisco CX and NgRx
@@ -168,3 +203,7 @@ export class Details {
     - Docs: Auto generate docs in your repo
     - PR: Auto review and generate suggestions for your PR
     - CLI
+
+### Superpowers with signals
+  - Talk is a live code session, creating an application to generate superheroes
+
