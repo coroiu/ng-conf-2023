@@ -109,7 +109,7 @@ export class Tooltip {
 ```
 
 ### Router improvements
-  - Router is becoming simpler and more functional to use, especially with standalone components.
+  - Router is becoming simpler and more functional to use, especially with standalone components, search for functional guards (eg. https://dev.to/this-is-angular/how-to-use-functional-router-guards-in-angular-23kf)
   - Route query params can now be injected into components using `@Input()`
 
 #### Example: Injected params
@@ -141,6 +141,8 @@ export class Details {
     - Automation
   - Processes
     - Trunk-based development
+      - Less lead time - faster bug fixes and releases
+      - Simpler to understand
     - Code style: "A shared understanding of excellence"
       - See: https://ts.dev/style
       - Angular style guide
@@ -152,3 +154,17 @@ export class Details {
     - Planning
     - Daily releases
 
+### Do More using GitHub, AI, and VS Code
+  - 1m users of GitHub copilot
+  - Good for regex, like really good
+  - Prediction: Learning will be done using AI in the future
+  - Aside: Pressing dot (`.`) in github opens the full codespace editor
+  - Talk goes through some examples where coding with copilot speeds up development.
+  - Copilot X, new features:
+    - Chat: Ask dev questions. 
+      - Similar to existing copilot, but with a chat window
+      - Works better when working with entire files, where you want copilot to do more than just write a function somewhere
+    - Voice: Same, ask dev questions
+    - Docs: Auto generate docs in your repo
+    - PR: Auto review and generate suggestions for your PR
+    - CLI
