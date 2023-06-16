@@ -503,3 +503,12 @@ export class PageComponent {
     - Have a clear flow of data through the application
     - Create and maintain single sources of truth
     - Compose data so all consumers get the same data
+
+### Clean Up Your Old Angular Apps
+  - Talk goes through the history of angular and all breaking changes that have happened throughout
+  - Talk then goes through a process for how to upgrade a really angular version
+  - "The nuclear option"
+    - `npx @angular/cli@latest new new-beutiful-project`
+    - Copy over `/src/app`
+    - Copy over assets and config
+    - Fix it
