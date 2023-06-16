@@ -529,3 +529,19 @@ export class PageComponent {
 ### Auxiliary Routes - the Ant-Man of Angular
   - The talk presents named outlets which is an existing angular feature
   - (note: This is what I've been experimenting with during BEEEP to add routable dialogs)
+
+### Fun with (feature) flags
+  - The talk is an introduction to feature flags 
+  - Interesting points:
+    - Use router guards to prohibit navigations to disabled features
+    - Feature flag directive: 
+      ```html
+        <div *bitFeatureFlag="'passwordless-login'"></div>
+      ```
+
+### The Cleanest Way to Write Observable Chains
+  - Slides: https://docs.google.com/presentation/d/1EQrAIJRaP-z10HwqHdZ-KhXEfrWl7sYlvq3Hm7UUuDs/edit
+  - Don't subscribe inside a subscribe
+  - Don't cause side-effects in operators, put those in the `tap` operator
+  - Use `shareReplay` to break up observable pipes
+  - (note: see https://github.com/bitwarden/clients/blob/5cd51374d7e746c36da77314d7d84f8361de36a1/apps/web/src/app/vault/individual-vault/vault.component.ts#L188-L400 for examples)
