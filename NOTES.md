@@ -556,3 +556,26 @@ export class PageComponent {
   - What if we could integrate all these into our app?
   - (note: not so related to us, since it depends on using existing data and also integrating with other services)
 
+### Faster apps with Angular SSR
+  - (note: SSR is not really applicable to us)
+  - SSR in Angular before v16
+    - Request
+    - Server render
+    - Respond HTML
+    - Client render static HMTL
+    - Angular destroys and completely re-renders DOM
+  - SSR in Angular v16: Angular re-uses the DOM
+    - Request
+    - Annotation: information about state
+    - Serialization (server render)
+    - Respond HTML
+    - Client render satic HTML
+    - Angular attaches itself using annotated information
+  - Transfer state
+    - Service for transferring state from server to client
+    - Service serializes state into footer
+    - Client imports the state and makes it available in the service
+    - `HttpCache` transfers cache from server to client
+  - Hydration skippable with `ngSkipHydration` 
+  - DOM-reuse disableable
+  - Works with lazy-loaded routes
