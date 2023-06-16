@@ -545,3 +545,14 @@ export class PageComponent {
   - Don't cause side-effects in operators, put those in the `tap` operator
   - Use `shareReplay` to break up observable pipes
   - (note: see https://github.com/bitwarden/clients/blob/5cd51374d7e746c36da77314d7d84f8361de36a1/apps/web/src/app/vault/individual-vault/vault.component.ts#L188-L400 for examples)
+
+### Thinking Outside the Box: Taking Your Line of Business Apps to the Next Level
+  - Promotional talk for MS Graph
+  - Issue: Splitting your users focus
+    - Context shifts: The data they needed wasn't available within the app
+    - Communication: Out-of-band communication
+    - Writing, reviewing, summarizing: Documents, reports and more
+    - All these things then to distract us
+  - What if we could integrate all these into our app?
+  - (note: not so related to us, since it depends on using existing data and also integrating with other services)
+
