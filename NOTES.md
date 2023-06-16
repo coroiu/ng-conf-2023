@@ -512,3 +512,7 @@ export class PageComponent {
     - Copy over `/src/app`
     - Copy over assets and config
     - Fix it
+
+### Fine-Tuning Your Angular Workflow with Nx: Beyond the CLI
+  - The talk goes through how to use generators and executors in Nx
+  - Nx is compatible with angular schematics
