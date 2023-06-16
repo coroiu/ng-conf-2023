@@ -478,3 +478,28 @@ async function test() {
   }
 }
 ```
+
+### Reactive Patterns For Angular
+  - Slides and examples: https://github.com/lara-newsom/reactive-patterns
+  - Three ingredients for reactivity: Producers, Consumers, Side effects
+  - Following good reactive patterns makes it easy to understand where changes should happen
+  - Suggestion 1 - Input setters: Use setters with `@Input` instead of `ngOnChanges`. Can easily be adapter to signals (note: and rxjs)
+  - `@Output` great tool passing data from child to parent, not great for passing data to other parts of the app which tightly couples the emitting component to the tree.
+  - Suggestion 2 - Emit events where they happen: Use stateful services (note: like react contexts) using subjects or signals. Or use the router.
+  - Suggestion 3 - Compose data before it reaches consumers
+
+### Example: Updating state store using router events
+(note: not sure I agree with this suggestion, I think router data providers would be a better fit)
+```ts
+export class PageComponent {
+  private stateService = inject(StateService);
+  @Input() set routerParam(value: string) {
+    stateService.routerParam.set(value);
+  }
+}
+```
+
+  - Summary (note: great rules even if I don't agree with implementatio):
+    - Have a clear flow of data through the application
+    - Create and maintain single sources of truth
+    - Compose data so all consumers get the same data
