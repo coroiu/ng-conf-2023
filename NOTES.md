@@ -516,3 +516,12 @@ export class PageComponent {
 ### Fine-Tuning Your Angular Workflow with Nx: Beyond the CLI
   - The talk goes through how to use generators and executors in Nx
   - Nx is compatible with angular schematics
+
+### Angular Across the Stack with Analog
+  - Analogjs is a fullstack Angular meta-framework
+    - "A meta-framework is a system one level above that stitches multiple frameworks together"
+    - Eg: Next.js, Sveltekit
+  - Vite-powered
+  - File-based routing and API routes
+  - SSR and SSG (note: which is not really applicable to us)
+  - Works with Nx
