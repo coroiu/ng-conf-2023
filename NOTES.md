@@ -177,6 +177,82 @@ export class HigherOrderInjectComponent {
 }
 ```
 
+### RXJS v8 improvements
+  - Safer and easier to develop operators using `operate` function
+    - Library is now implemented using the same syntax/conventions as the ones recommended in the documentation for library-users, meaning it's easier to copy source code from the rxjs repo
+
+#### Example: Operator development in v7
+```ts
+export function map<In, Out>(
+  fn: (value: In) => Out,
+): OperatorFunction<In, Out> {
+  return (source) => new Observable((destination) => {
+    return source.subscribe({
+      next: (value) => {
+        let result;
+        try {
+          result = fn(value);
+        } catch (err) {
+          destination.error(err);
+          return;
+        }
+        destination.next(result);
+      },
+      error: (err) => destination.error(err),
+      complete: () => destination.complete(),
+    })
+  })
+}
+```
+
+#### Example: Operator development in v8
+```ts
+export function map<In, Out>(
+  fn: (value: In) => Out,
+): OperatorFunction<In, Out> {
+  return (source) => new Observable((destination) => {
+    source.subscribe(operate({
+      destination,
+      next: (value) => destination.next(fn(value)),
+    }));
+  });
+}
+```
+
+  - New `rx` function
+
+#### Example: Piping using `rx`
+```ts
+// v7
+from(someAsyncOrStream).pipe(
+  filter(...),
+  map(...)
+).subscribe(console.log);
+
+// v8
+rx(
+  someAsyncOrStream,
+  filter(...),
+  map(...)
+).subscribe(console.log);
+```
+
+  - Really cool `for await` support in observables
+
+#### Example: `for await`
+```ts
+async function test() {
+  // source$ = observable
+  // for await is basically a concatMap
+  for await (const value of source$) {
+    console.log(value);
+    if (value > 100) {
+      break; // unsubscribes
+    }
+  }
+}
+```
+
 ## Talks
 Raw notes from talks. Information regarding new features is condesed and summarized in the section above.
 
@@ -325,3 +401,80 @@ What was important from them to succeed?
     - Fine-grained info on model changes
     - Coexists seamlessly with zone components
     - Signals results in angular only cheking/updating singular nodes in the middle of the tree, no longer top-down
+
+### What's new in RXJS 8 (alpha)
+  - Smaller size, 30% smaller than v7, 61% smaller than v6
+  - Safer and easier to develop operators using `operate` function
+    - Library is now implemented using the same syntax/conventions as the ones recommended in the documentation for library-users, meaning it's easier to copy source code from the rxjs repo
+
+#### Example: Operator development in v7
+```ts
+export function map<In, Out>(
+  fn: (value: In) => Out,
+): OperatorFunction<In, Out> {
+  return (source) => new Observable((destination) => {
+    return source.subscribe({
+      next: (value) => {
+        let result;
+        try {
+          result = fn(value);
+        } catch (err) {
+          destination.error(err);
+          return;
+        }
+        destination.next(result);
+      },
+      error: (err) => destination.error(err),
+      complete: () => destination.complete(),
+    })
+  })
+}
+```
+
+#### Example: Operator development in v8
+```ts
+export function map<In, Out>(
+  fn: (value: In) => Out,
+): OperatorFunction<In, Out> {
+  return (source) => new Observable((destination) => {
+    source.subscribe(operate({
+      destination,
+      next: (value) => destination.next(fn(value)),
+    }));
+  });
+}
+```
+
+  - Piping improvements
+
+#### Example: Piping using `rx`
+```ts
+// v7
+from(someAsyncOrStream).pipe(
+  filter(...),
+  map(...)
+).subscribe(console.log);
+
+// v8
+rx(
+  someAsyncOrStream,
+  filter(...),
+  map(...)
+).subscribe(console.log);
+```
+
+  - Really cool `for await` support in observables
+
+#### Example: `for await`
+```ts
+async function test() {
+  // source$ = observable
+  // for await is basically a concatMap
+  for await (const value of source$) {
+    console.log(value);
+    if (value > 100) {
+      break; // unsubscribes
+    }
+  }
+}
+```
