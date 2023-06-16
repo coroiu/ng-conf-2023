@@ -254,7 +254,7 @@ async function test() {
 ```
 
 ## Talks
-Raw notes from talks. Information regarding new features is condesed and summarized in the section above.
+Raw notes from talks. Information regarding new features is condesed and summarized in the section above. Does not contain notes from (sponsored) libraries that we don't use.
 
 ### Setting up Enterprise Frontend for Success at Cisco CX and NgRx
 What was important from them to succeed?
