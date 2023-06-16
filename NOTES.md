@@ -525,3 +525,7 @@ export class PageComponent {
   - File-based routing and API routes
   - SSR and SSG (note: which is not really applicable to us)
   - Works with Nx
+
+### Auxiliary Routes - the Ant-Man of Angular
+  - The talk presents named outlets which is an existing angular feature
+  - (note: This is what I've been experimenting with during BEEEP to add routable dialogs)
