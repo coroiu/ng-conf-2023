@@ -579,3 +579,79 @@ export class PageComponent {
   - Hydration skippable with `ngSkipHydration` 
   - DOM-reuse disableable
   - Works with lazy-loaded routes
+
+### Simplifying rxjs with custom operators
+  - (note: Interesting idea!)
+
+#### Example: Go from this
+```ts
+let newTest: any;
+  const newAccession = this.pdsService.addTest(this.accession.number, this accession.id, test).pipe(
+  tap((test) => testId = tst.testId),
+  switchMap(() => this.pdsService.get(this.accession.number)),
+  switchMap((acc) => {
+  // update Stain
+    newTest = _.find(acc.patients[0].specimens[0].tests, (val) => va1.id === testId);
+    const result = this.findPrompt(newTest.results, "Special stain", "IHC Stain", "IHC Panel" );
+    const body = {
+      result_value: test.stain.value_item,
+      isNumber: false
+    };
+    return this.pdsService.updateResuIt(acc.number, result.id, body);
+  }),
+  switchMap((acc) => {
+    // update Comments
+    const result = this.findPrompt(newTest.results, ["AP Internal Comments"]):
+    const body = {
+      result_value: responses.comments,
+      isNumber: false
+    };
+    return this.pdsService.updateResuIt(this.accession.number, result.id, body);
+  }),
+  switchMap((acc) => {
+    // update Blocks requested
+    const result = this.findPrompt(newTest.results, ["Block requested"]);
+    const body = {
+      result_ya1ue: responses.blockrequested,
+      isNumber: false
+    };
+    return this.pdsService.updateResult(this.accession.number, result.id, body);
+  })
+  .subscribe();
+```
+
+#### Example: To this
+```ts
+const newAccession = this.pdsService.addTest(this.accession.number, this.accession.id, test).pipe(
+  this.getTestId(),
+  this.getPathologyDigitalSlideListing(),
+  this.updateStain(test),
+  this.updateComments(responses.comments),
+  this.updateBlockRequested(responses.blockrequested),
+).subscribe();
+
+//...
+
+  getTestId = () => pipe(
+    tap((tst: any) => this.testId = tst.testId),
+  );
+
+  getPathoIogyDigitalSlideListing = () => pipe(
+    switchMap(() => this.pdsService.get(this.accession.number))
+  );
+
+  updateStain = (test) => pipe(
+    switchMap((acc: any) => {
+      // update Stain
+      this.newTest = _.find(acc.patients[0].specimens[0].tests, (val) => va1.id === this.testId);
+      const result = this.findPrompt(this.newTest.results, ["SpeciaL stain", "IHC Stain", "IHC Pane1"]);
+      const body = {
+        result_value: test.stain.value_item,
+        isNumber: false
+      };
+      return this.pdsService.updateResult(acc.number, result.id, body);
+    })
+  );
+
+  //...
+```
