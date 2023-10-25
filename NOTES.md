@@ -6,18 +6,46 @@
   - Uses new syntax
   - Kind of like lazy loading but does not depend on the router
 
+#### Example
+```html
+<!-- example.component.html -->
+@defer {
+  <user-profile />
+}
+```
+
+#### Example: Advanced
+```html
+@defer (on hover) {
+  <user-profile />
+}
+@placeholder {
+  <span>Hover to load</span>
+}
+@error {
+  <span>Error</span>
+}
+@loading(minimum 1s) {
+  <span>Loading...</span>
+}
+```
+
 ### Improved control flow
   - New syntax, similar to deferred loading syntax
   - Built into the framework, instead of added using directives.
+
 #### Example
-```
-{#if state === 'logged-in'}
-  <user-profile />
-{:else if state === 'error'}
-  Loggin attempt failed ...
-{:else}
-  <login-screen />
-{/if}
+```html
+@if (user.isHuman) {
+  <human-profile [data]="user" />
+} @else if (user.isRobot) {
+  <!-- robot users are rare, so load their profiles lazily -->
+  @defer {
+    <robot-profile [data]="user" />
+  }
+} @else {
+  The profile is unknown!
+}
 ```
 
 ### Signals
@@ -97,6 +125,52 @@ export class UserService {
 ### Directive composition
   - Components can finally define their own directives that will automatically be applied to the component.
 
+#### Example: Directive composition
+```ts
+@Directive({ standalone: true })
+export class FocusRingDirective {
+  @Input() ringWidth: number = 1;
+  @Output() focusMoved = new EventEmitter();
+
+  @HostBinding('class')
+  get classes() {
+    `focus:tw-ring-1`
+  }
+}
+
+@Component({
+  selector: '[bitButton]',
+  template: './button.component.html',
+  hostDirectives: [{
+    directive: FocusRingDirective,
+    inputs: ['ringWidth'],
+    outputs: ['focusMoved'],
+  }],
+})
+export class ButtonComponent { }
+```
+
+#### Example: Multi-level composition
+```ts
+@Directive({...})
+export class Menu { }
+
+@Directive({...})
+export class Tooltip { }
+
+// MenuWithTooltip can compose behaviors from multiple other directives
+@Directive({
+  hostDirectives: [Tooltip, Menu],
+})
+export class MenuWithTooltip { }
+
+// CustomWidget can apply the already-composed behaviors from MenuWithTooltip
+@Directive({
+  hostDirectives: [MenuWithTooltip],
+})
+export class SpecializedMenuWithTooltip { }
+```
+
 ### Required input
   - Compile-time enforced required template inputs.
 
@@ -104,7 +178,7 @@ export class UserService {
 ```ts
 @Directive({ selector: '[tooltip]' })
 export class Tooltip {
-  @Input({ required: }) message: string;
+  @Input({ required: true }) message!: string;
 }
 ```
 
@@ -112,14 +186,24 @@ export class Tooltip {
   - Router is becoming simpler and more functional to use, especially with standalone components. search for functional guards (eg. https://dev.to/this-is-angular/how-to-use-functional-router-guards-in-angular-23kf)
   - Route query params can now be injected into components using `@Input()`
 
+#### Example: Lazy loading standalone components
+```ts
+const routes: Routes = [
+  {
+    path: 'users/:id',
+    loadComponent: () => import('./pages/users/view').UserDetailsComponent,
+  }
+]
+```
+
 #### Example: Functional methods
 ```ts
 const routes: Routes = [
   {
-    path: 'details/:id',
-    component: DetailsComponent,
+    path: 'users/:id',
+    component: UserDetailsComponent,
     canActivate: [() => inject(AuthService).isAuthenticated()],
-    resolve: { profile: () => inject(ProfileService).getCurrentUser() }
+    resolve: { profile: () => injectUserDetails$() }
   }
 ]
 ```
@@ -128,8 +212,8 @@ const routes: Routes = [
 ```ts
 const routes: Routes = [
   {
-    path: 'details/:id',
-    component: DetailsComponent,
+    path: 'users/:id',
+    component: UserDetailsComponent,
     resolve: { profile: ProfileResolver }
   }
 ]
@@ -154,14 +238,20 @@ export class TraditionalInject {
 }
 
 export class NewInject {
-  protected httpClient = inject(HttpClient);
+  private httpClient = inject(HttpClient);
+}
+
+export class BadExample {
+  @Input() set input() {
+    inject(HttpClient).get(...);
+  }
 }
 ```
 
 #### Example: Higher order inject functions
 ```ts
 // user-details.fetch.ts
-export const fetchUserDetails() = () => {
+export const injectUserDetails$() = () => {
   const http = inject(HttpClient);
 
   return inject(ActivatedRoute).paramsMap.pipe(
@@ -173,7 +263,7 @@ export const fetchUserDetails() = () => {
 
 // higher-order-inject.components.ts
 export class HigherOrderInjectComponent {
-  protected httpClient = fetchUserDetails();
+  protected userDetails$ = fetchUserDetails$();
 }
 ```
 
@@ -413,7 +503,7 @@ export function map<In, Out>(
   fn: (value: In) => Out,
 ): OperatorFunction<In, Out> {
   return (source) => new Observable((destination) => {
-    return source.subscribe({
+    const subscription = source.subscribe({
       next: (value) => {
         let result;
         try {
@@ -426,7 +516,9 @@ export function map<In, Out>(
       },
       error: (err) => destination.error(err),
       complete: () => destination.complete(),
-    })
+    });
+
+    return () => subscription.unsubscribe();
   })
 }
 ```
